@@ -70,6 +70,18 @@ char *desempilha(pilha *p)
     
 }
 //imprimePilha
+void imprimirPilha(pilha *p, int indice) {
+    printf("P%d:", indice);
+
+    veiculo *atual = p->topo;
+    while (atual != NULL) {
+        printf(" %s", atual->placa);
+        atual = atual->prox;
+    }
+
+    printf("\n");
+}
+
 //limpaPilhas
 void limpaPilhas(pilha *p) {
     veiculo *atual = p->topo;
@@ -123,7 +135,8 @@ void gerenciar_estacionamento() {
 
             if (operacao == 'F') { // Finaliza o dia
                 printf("F\n\n");
-                // criar uma funcao que apaga o conteudo das pilhas e add aqui
+                for(int i = 0; i < NUM_PILHAS; i++)
+                    limpaPilhas(&est.P[i]);// criar uma funcao que apaga o conteudo das pilhas e add aqui
             } else if (operacao == 'E') { // Entrada de veículo
                 char placa[9];
                 scanf("%s", placa);
