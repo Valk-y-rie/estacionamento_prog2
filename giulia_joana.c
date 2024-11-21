@@ -36,11 +36,38 @@ typedef struct
     pilha P[NUM_PILHAS]; /* Armazena as pilhas P0, P1, ..., NUM_PILHAS-1 */
 } estacionamento;
 
-// funÁıes base pilha
+// fun√ß√µes base pilha
 
 //criar empilha, desempilha, imprimePilha e limpaPilhas
 //empilha
+int empilha(pilha *p, const char *placa) {
+    if (p->veiculos >= MAX_VEICULOS) 
+    {    
+        return 0
+    }    
+    veiculo *novo = (veiculo *)malloc(sizeof(veiculo));
+    novo->placa = placa;
+    novo->prox = p->topo;
+    p->topo = novo;
+    p->veiculos++;
+    return 1;
+}
 //desempilha
+char *desempilha(pilha *p)
+{
+    if (p->topo == NULL) {
+        return NULL;
+    }
+    char *placa = (char *)malloc(9);
+    veiculo *remove = p->topo; 
+
+    placa = remove->placa;
+    p->veiculos--;
+    free(remove);
+
+    return placa;
+    
+}
 //imprimePilha
 //limpaPilhas
 void inicializaPilha(pilha *p) {
@@ -59,7 +86,7 @@ void inicializaEstacionamento(estacionamento *est) {
 int menorPilha(estacionamento *est) {
     int i = 0;
     for (int j = 1; j < NUM_PILHAS; j++) {
-        if (est->P[i].veiculos < est->P[i].veiculos) {
+        if (est->P[i].veiculos < est->P[j].veiculos) {
             i = j;
         }
     }
@@ -85,7 +112,7 @@ void gerenciar_estacionamento() {
             if (operacao == 'F') { // Finaliza o dia
                 printf("F\n\n");
                 // criar uma funcao que apaga o conteudo das pilhas e add aqui
-            } else if (operacao == 'E') { // Entrada de veÌculo
+            } else if (operacao == 'E') { // Entrada de ve√≠culo
                 char placa[9];
                 scanf("%s", placa);
                 int indice = menorPilha(&est);
@@ -94,7 +121,7 @@ void gerenciar_estacionamento() {
                 } else {
                     printf("C %s\n", placa); // Estacionamento cheio
                 }
-            } else if (operacao == 'S') { // SaÌda de veÌculo
+            } else if (operacao == 'S') { // Sa√≠da de ve√≠culo
                 char placa[9];
                 scanf("%s", placa);
                 int encontrado = 0;
@@ -105,7 +132,7 @@ void gerenciar_estacionamento() {
                     while (est.P[i].topo != NULL) {
                         char *atual = desempilha(&est.P[i]);
                         if (strcmp(atual, placa) == 0) {
-                            printf("S %s\n", atual); // VeÌculo removido
+                            printf("S %s\n", atual); // Ve√≠culo removido
                             encontrado = 1;
                             free(atual);
                             break;
@@ -125,12 +152,12 @@ void gerenciar_estacionamento() {
                 }
 
                 if (!encontrado) {
-                    printf("N %s\n", placa); // VeÌculo n„o encontrado
+                    printf("N %s\n", placa); // Ve√≠culo n√£o encontrado
                 }
             } else if (operacao == 'I') {
                 int i;
                 scanf("%d", &i);
-                imprimirPilha(&est.P[i], i); // Impress„o de pilha
+                imprimirPilha(&est.P[i], i); // Impress√£o de pilha
             }
         }
     }
