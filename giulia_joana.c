@@ -50,6 +50,7 @@ int empilha(pilha *p, const char *placa) {
     novo->prox = p->topo;
     p->topo = novo;
     p->veiculos++;
+    
     return 1;
 }
 //desempilha
@@ -70,6 +71,17 @@ char *desempilha(pilha *p)
 }
 //imprimePilha
 //limpaPilhas
+void limpaPilhas(pilha *p) {
+    veiculo *atual = p->topo;
+    while (atual != NULL) {
+        veiculo *removido = atual;
+        atual = atual->prox;
+        free(removido);
+    }
+    p->topo = NULL;
+    p->veiculos = 0;
+}
+
 void inicializaPilha(pilha *p) {
     p->veiculos = 0;
     p->topo = NULL;
